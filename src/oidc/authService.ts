@@ -16,4 +16,8 @@ export const getUser = (): Promise<User | null> => {
     return userManager.getUser();
 }
 
+export const login = (): Promise<void> => {
+    return userManager.signinRedirect();
+}
+
 // TODO to implement sign out functionality

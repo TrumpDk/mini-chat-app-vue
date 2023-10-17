@@ -5,17 +5,23 @@
 </template>
 
 <script lang="ts" setup>
-import { userManager } from '../oidc/authService';
 import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import Service from '../service/service';
 
-onMounted(() => {
-    console.log('call back')
-    signInCallback();
+const route = useRoute();
+
+onMounted(async() => {
+    const callBackState = new URLSearchParams(window.location.search);
+    console.log('call back', route.fullPath, window.location.search, callBackState, callBackState.get('state'));
+    // TODO call callback URI to get access token
+    try {
+        const result = await Service.authCallback({code: callBackState.get('code')!, state: callBackState.get('state')!})
+        console.log(result, 'sdfsdfs');
+    } catch (e) {
+        console.log(e)
+    }
 })
-
-const signInCallback = async () => {
-    await userManager.signinCallback();
-}
 </script>
 
 <style scoped></style>
