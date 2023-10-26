@@ -21,8 +21,8 @@ instance.interceptors.response.use(response => {
     return Promise.reject(e)
 })
 
-export const putData = <T>(url: string, data: T) => {
-    return new Promise((resolve, reject) => {
+export const putData = <T, R>(url: string, data?: T) => {
+    return new Promise<R>((resolve, reject) => {
         instance.put(url, data).then(response => {
             return resolve(response.data);
         }).catch(error => {
@@ -43,8 +43,8 @@ export const postData = <T, R>(url: string, data: T) => {
     })
 }
 
-export const getData = <T, R>(url: string, data?: T) => {
-    return new Promise<R>((resolve, reject) => {
+export const getData = <T, R = void>(url: string, data?: R) => {
+    return new Promise<T>((resolve, reject) => {
         instance.get(url, {params: data}).then(response => {
             return resolve(response.data);
         }).catch(error => {

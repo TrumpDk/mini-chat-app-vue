@@ -13,5 +13,6 @@ export type AuthCallbackStateType = {
 
 export interface UserRegisterInfo {
   id: number,
+  nickName: string,
   password: string,
 }
