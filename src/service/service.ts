@@ -6,5 +6,5 @@ export default {
 
   authCallback: (data: AuthCallbackStateType) => postData<AuthCallbackStateType, any>("/auth/callback", data),
 
-  register: (data: UserRegisterInfo) => postData();
+  register: (data: UserRegisterInfo) => postData('/register', data),
 };

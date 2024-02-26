@@ -28,6 +28,7 @@ import { reactive, ref } from 'vue';
 // import service from '../service/service';
 // https://blog.csdn.net/m0_62317155/article/details/130918961
 import type { FormInstance, FormRules } from 'element-plus'
+import service from '../service/service';
 
 const ruleFormRef = ref<FormInstance>();
 
@@ -90,7 +91,6 @@ const reCheckPassword = (rule: any, value: any, callback: any) => {
     if (!reg.test(value)) {
         return callback(new Error('请输入10-15位包含大小写字母特殊符号的组合'))
     }
-
     callback()
 }
 
@@ -103,7 +103,7 @@ const rules = reactive<FormRules<typeof form>>({
 
 
 
-const submitForm = (formEl: FormInstance | undefined) => {
+const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.validate((valid) => {
         if (valid) {
@@ -112,7 +112,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
             console.log('error submit!')
             return false
         }
-    })
+    });
+    try {
+        await service.register({id: Number.parseInt(form.id), nickName: form.nickName, password: form.password});
+    } catch (e) {
+        console.log(e, 'error');
+    }
 }
 
 const resetForm = (formEl: FormInstance | undefined) => {
